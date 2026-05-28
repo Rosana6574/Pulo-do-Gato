@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       title: 'Pulo do Gato',
       debugShowCheckedModeBanner: false,
 
-      // Definição da identidade visual global baseada no azul primário usado nos HTMLs
+      // Definição da identidade visual global baseada no azul primário
       theme: ThemeData(
         primaryColor: const Color(0xff1565C0),
         colorScheme: ColorScheme.fromSeed(
@@ -38,25 +38,18 @@ class MyApp extends StatelessWidget {
       // Rota inicial do aplicativo (Tela de Login)
       initialRoute: '/login',
 
-      // Mapeamento de rotas nomeadas para navegação via Navigator.pushReplacementNamed
+      // Mapeamento de rotas nomeadas para navegação
       routes: {
         '/login': (context) => const LoginPage(),
-        '/cadastro': (context) =>
-            const CadastroPage(), // Certifique-se de que a classe no arquivo se chama CadastroPage
-        '/telaprincipal': (context) =>
-            const TelaPrincipal(), // Certifique-se de que a classe no arquivo se chama TelaPrincipal
-        '/calcular': (context) =>
-            const CalcularPage(), // Certifique-se de que a classe no arquivo se chama CalcularPage
-        '/resultadocalcular': (context) =>
-            const ResultadoCalcularPage(), // Certifique-se de que a classe no arquivo se chama ResultadoCalcularPage
-        '/alternativas': (context) =>
-            const AlternativasPage(), // Certifique-se de que a classe no arquivo se chama AlternativasPage
+        '/cadastro': (context) => const CadastroPage(),
+        '/telaprincipal': (context) => const TelaPrincipal(),
+        '/calcular': (context) => const CalcularPage(),
+        '/resultadocalcular': (context) => const ResultadoCalcularPage(),
+        '/alternativas': (context) => const AlternativasPage(),
         '/historico': (context) => const HistoricoPage(),
         '/historicoo': (context) => const HistoricooPage(),
-        '/perfil': (context) =>
-            const PerfilPage(), // Certifique-se de que a classe no arquivo se chama PerfilPage
-        '/informacoes': (context) =>
-            const InformacooeessPage(), // Certifique-se de que a classe no arquivo se chama InformacooeessPage
+        '/perfil': (context) => const PerfilPage(),
+        '/informacoes': (context) => const InformacooeessPage(),
       },
     );
   }
