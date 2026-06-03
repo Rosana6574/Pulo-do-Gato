@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// Importação da tela de login
-import 'login_page.dart';
+import 'formatters.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({super.key});
@@ -12,7 +10,6 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
-  // Cores exatas do Tailwind CSS passadas no HTML
   static const Color brandBlue = Color(0xFF1A73E8);
   static const Color bgLight = Color(0xFFF7F9FC);
   static const Color textGray = Color(0xFF5E6C84);
@@ -20,14 +17,9 @@ class _CadastroPageState extends State<CadastroPage> {
   static const Color textDark = Color(0xFF1E293B);
   static const Color textLight = Color(0xFF64748B);
 
-  // Estados dos campos de senha
   bool _obscureSenha = true;
   bool _obscureConfirmar = true;
-
-  // Estado para os botões de tipo de residência
   String _residenciaSelecionada = '';
-
-  // Estado para o toggle da tarifa social
   bool _tarifaSocial = false;
 
   @override
@@ -53,23 +45,16 @@ class _CadastroPageState extends State<CadastroPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Subtítulo
             const Text(
               'Preencha seus dados para criar sua conta e começar a economizar.',
-              style: TextStyle(
-                color: textGray,
-                fontSize: 15,
-                height: 1.4, // equivalente ao leading-snug
-              ),
+              style: TextStyle(color: textGray, fontSize: 15, height: 1.4),
             ),
             const SizedBox(height: 32),
 
-            // NOME
             _buildLabel('Nome completo'),
             _buildTextField(hintText: 'Seu nome'),
             const SizedBox(height: 24),
 
-            // CPF
             _buildLabel('CPF'),
             _buildTextField(
               hintText: '000.000.000-00',
@@ -82,7 +67,6 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             const SizedBox(height: 24),
 
-            // EMAIL
             _buildLabel('E-mail'),
             _buildTextField(
               hintText: 'seu@email.com',
@@ -90,7 +74,6 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             const SizedBox(height: 24),
 
-            // SENHA
             _buildLabel('Senha'),
             _buildPasswordField(
               hintText: 'Até 6 caracteres',
@@ -103,7 +86,6 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             const SizedBox(height: 24),
 
-            // CONFIRMAR SENHA
             _buildLabel('Confirmar Senha'),
             _buildPasswordField(
               hintText: 'Até 6 caracteres',
@@ -116,7 +98,6 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             const SizedBox(height: 24),
 
-            // CEP
             _buildLabel('CEP'),
             _buildTextField(
               hintText: '00000-000',
@@ -129,7 +110,6 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             const SizedBox(height: 32),
 
-            // TIPO DE RESIDÊNCIA
             const Text(
               'Tipo de residência',
               style: TextStyle(
@@ -160,7 +140,6 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             const SizedBox(height: 40),
 
-            // TARIFA SOCIAL
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -183,7 +162,7 @@ class _CadastroPageState extends State<CadastroPage> {
                       ),
                       Switch(
                         value: _tarifaSocial,
-                        activeColor: Colors.white,
+                        activeThumbColor: Colors.white,
                         activeTrackColor: Colors.blue[600],
                         inactiveThumbColor: Colors.white,
                         inactiveTrackColor: Colors.grey[300],
@@ -212,14 +191,9 @@ class _CadastroPageState extends State<CadastroPage> {
             ),
             const SizedBox(height: 32),
 
-            // BOTÃO CRIAR CONTA
             ElevatedButton(
               onPressed: () {
-                // Navega para o Login (simulando a função criarConta() do JS)
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
-                );
+                Navigator.pushReplacementNamed(context, '/login');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: brandBlue,
@@ -241,8 +215,6 @@ class _CadastroPageState extends State<CadastroPage> {
     );
   }
 
-  // --- Widgets Auxiliares ---
-
   Widget _buildLabel(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -263,12 +235,12 @@ class _CadastroPageState extends State<CadastroPage> {
     List<TextInputFormatter>? formatters,
   }) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        boxShadow: [
           BoxShadow(
-            color: Color(0x0D000000), // shadow-sm
+            color: Color(0x0D000000),
             blurRadius: 2,
             offset: Offset(0, 1),
           ),
@@ -284,7 +256,7 @@ class _CadastroPageState extends State<CadastroPage> {
             horizontal: 16,
             vertical: 14,
           ),
-          border: InputBorder.none, // Borda controlada pelo Container
+          border: InputBorder.none,
         ),
       ),
     );
@@ -296,10 +268,10 @@ class _CadastroPageState extends State<CadastroPage> {
     required VoidCallback onToggle,
   }) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        boxShadow: [
           BoxShadow(
             color: Color(0x0D000000),
             blurRadius: 2,
@@ -309,13 +281,13 @@ class _CadastroPageState extends State<CadastroPage> {
       ),
       child: TextField(
         obscureText: obscureText,
-        maxLength: 6, // Máximo de 6 caracteres pedido no HTML
+        maxLength: 6,
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: TextStyle(color: Colors.grey[400]),
           contentPadding: const EdgeInsets.fromLTRB(16, 14, 0, 14),
           border: InputBorder.none,
-          counterText: "", // Esconde o contador nativo do Flutter (0/6)
+          counterText: "",
           suffixIcon: IconButton(
             icon: Icon(
               obscureText ? Icons.visibility_off : Icons.visibility,
@@ -358,62 +330,6 @@ class _CadastroPageState extends State<CadastroPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// --- Classes de Máscara (Formatters) ---
-
-class CpfInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    final text = newValue.text;
-    if (text.isEmpty) return newValue;
-
-    final buffer = StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      buffer.write(text[i]);
-      final index = i + 1;
-      if (index == 3 || index == 6) {
-        buffer.write('.');
-      } else if (index == 9) {
-        buffer.write('-');
-      }
-    }
-
-    final formattedText = buffer.toString();
-    return TextEditingValue(
-      text: formattedText,
-      selection: TextSelection.collapsed(offset: formattedText.length),
-    );
-  }
-}
-
-class CepInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    final text = newValue.text;
-    if (text.isEmpty) return newValue;
-
-    final buffer = StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      buffer.write(text[i]);
-      final index = i + 1;
-      if (index == 5) {
-        buffer.write('-');
-      }
-    }
-
-    final formattedText = buffer.toString();
-    return TextEditingValue(
-      text: formattedText,
-      selection: TextSelection.collapsed(offset: formattedText.length),
     );
   }
 }
