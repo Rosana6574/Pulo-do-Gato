@@ -1,12 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Importação das telas de destino
-// Certifique-se de que os nomes dos arquivos e das classes estão corretos no seu projeto.
-import 'perfil.dart';
-import 'calcular.dart';
-import 'historico.dart';
-import 'alternativas.dart';
-
 class TelaPrincipal extends StatefulWidget {
   const TelaPrincipal({super.key});
 
@@ -15,13 +8,12 @@ class TelaPrincipal extends StatefulWidget {
 }
 
 class _TelaPrincipalState extends State<TelaPrincipal> {
-  // Cores personalizadas baseadas no seu CSS
   static const Color brandBlue = Color(0xFF1565C0);
   static const Color bgLight = Color(0xFFF8F9FA);
-  static const Color textDark = Color(0xFF1F2937); // gray-800
-  static const Color textGray = Color(0xFF374151); // gray-700
-  static const Color iconBg = Color(0xFFEFF6FF); // blue-50
-  static const Color iconColor = Color(0xFF2563EB); // blue-600
+  static const Color textDark = Color(0xFF1F2937);
+  static const Color textGray = Color(0xFF374151);
+  static const Color iconBg = Color(0xFFEFF6FF);
+  static const Color iconColor = Color(0xFF2563EB);
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +22,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // HEADER
           _buildHeader(context),
-
-          // MAIN MENU
           Expanded(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -50,50 +39,29 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                   ),
                   const SizedBox(height: 24),
 
-                  // BOTÃO: Calcular Consumo
                   _buildMenuItem(
-                    icon: Icons.calculate_outlined, // Ícone similar ao SVG
+                    icon: Icons.calculate_outlined,
                     title: 'Calcular consumo',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          // Substitua pelo nome exato da classe em calcular.dart
-                          builder: (context) => const CalcularPage(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/calcular');
                     },
                   ),
                   const SizedBox(height: 16),
 
-                  // BOTÃO: Histórico
                   _buildMenuItem(
-                    icon: Icons.history, // Ícone similar ao SVG
+                    icon: Icons.history,
                     title: 'Histórico',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          // Substitua pelo nome exato da classe em historico.dart
-                          builder: (context) => const HistoricoPage(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/historico');
                     },
                   ),
                   const SizedBox(height: 16),
 
-                  // BOTÃO: Alternativas Econômicas
                   _buildMenuItem(
-                    icon: Icons.bolt, // Ícone similar ao SVG
+                    icon: Icons.bolt,
                     title: 'Alternativas econômicas',
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          // Substitua pelo nome exato da classe em alternativas.dart
-                          builder: (context) => const AlternativasPage(),
-                        ),
-                      );
+                      Navigator.pushNamed(context, '/alternativas');
                     },
                   ),
                 ],
@@ -104,8 +72,6 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       ),
     );
   }
-
-  // --- Widgets Auxiliares ---
 
   Widget _buildHeader(BuildContext context) {
     return Container(
@@ -119,18 +85,10 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
       ),
       child: Column(
         children: [
-          // TOPO DO HEADER (Olá João + Avatar que leva ao perfil)
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  // Substitua pelo nome exato da classe em perfil.dart
-                  builder: (context) => const PerfilPage(),
-                ),
-              );
+              Navigator.pushNamed(context, '/perfil');
             },
-            // Usando Colors.transparent para garantir que a área toda seja clicável
             behavior: HitTestBehavior.opaque,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,10 +99,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                   children: [
                     Text(
                       'Olá,',
-                      style: TextStyle(
-                        color: Color(0xFFDBEAFE), // blue-100
-                        fontSize: 18,
-                      ),
+                      style: TextStyle(color: Color(0xFFDBEAFE), fontSize: 18),
                     ),
                     Text(
                       'João',
@@ -168,7 +123,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
                     ),
                     boxShadow: const [
                       BoxShadow(
-                        color: Color(0x0D000000), // shadow-sm
+                        color: Color(0x0D000000),
                         blurRadius: 2,
                         offset: Offset(0, 1),
                       ),
@@ -191,7 +146,6 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           ),
           const SizedBox(height: 32),
 
-          // CARDS DE RESUMO (Energia e Água)
           Row(
             children: [
               Expanded(
@@ -227,7 +181,6 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        // Cor do background equivalente ao --card-bg-light-blue
         color: Colors.white.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(16),
       ),
@@ -283,7 +236,7 @@ class _TelaPrincipalState extends State<TelaPrincipal> {
           borderRadius: BorderRadius.circular(16),
           boxShadow: const [
             BoxShadow(
-              color: Color(0x1A000000), // shadow mix
+              color: Color(0x1A000000),
               blurRadius: 6,
               offset: Offset(0, 4),
             ),
