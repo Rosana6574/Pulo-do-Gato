@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-// Importando as telas de destino
-import 'telaprincipal.dart';
-import 'cadastro.dart';
+import 'formatters.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,15 +10,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // Controles dos campos de texto para capturar o que o usuário digita
   final TextEditingController _senhaController = TextEditingController();
   final TextEditingController _cpfController = TextEditingController();
 
-  // Estados da tela (equivalentes ao controle de DOM/classes do JavaScript)
   bool _obscureSenha = true;
   bool _mostrarMensagemSucesso = false;
 
-  // Definição exata da paleta de cores do seu Tailwind CSS
   static const Color puloBlue = Color(0xff1a73e8);
   static const Color puloTextDark = Color(0xff1a1a1a);
   static const Color puloGray = Color(0xff707070);
@@ -34,8 +28,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _checarContaCriada() {
-    // Usando uma validação baseada em tempo para evitar que o compilador aponte "código morto"
-    // Se um dia quiser forçar o banner a aparecer para testar o visual, basta mudar para: contaCriadaSimulada = true;
     bool contaCriadaSimulada = DateTime.now().isBefore(DateTime(2020));
 
     if (contaCriadaSimulada || _mostrarMensagemSucesso) {
@@ -54,7 +46,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void dispose() {
-    // Boa prática no Flutter: limpar os controllers ao sair da tela para poupar memória
     _senhaController.dispose();
     _cpfController.dispose();
     super.dispose();
@@ -70,16 +61,14 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // HEADER (Equivalente ao <header class="bg-pulo-blue pt-12 pb-20">)
               Container(
                 color: puloBlue,
                 padding: const EdgeInsets.fromLTRB(24, 64, 24, 80),
                 child: Column(
                   children: [
-                    // LOGO DO APLICATIVO
                     Image.network(
                       'https://i.ibb.co/3ycRm6yK/Logo-Pulo-Do-Gato-removebg-preview.png',
-                      height: 112, // h-28 do Tailwind (28 * 4px = 112px)
+                      height: 112,
                       fit: BoxFit.contain,
                       errorBuilder: (context, error, stackTrace) {
                         return const Icon(
@@ -90,7 +79,6 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                     const SizedBox(height: 16),
-                    // TÍTULO PRINCIPAL (h1)
                     const Text(
                       'Pulo do Gato',
                       style: TextStyle(
@@ -101,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 4),
-                    // SUBTÍTULO (p)
                     Text(
                       'Controle de energia e água',
                       style: TextStyle(
@@ -114,7 +101,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
 
-              // MAIN CONTAINER (Equivalente ao <main class="form-card"> com margem negativa)
               Transform.translate(
                 offset: const Offset(0, -40),
                 child: Container(
@@ -126,9 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Color(
-                          0x0d000000,
-                        ), // shadow-sm / rgba(0, 0, 0, 0.05)
+                        color: Color(0x0d000000),
                         blurRadius: 20,
                         offset: Offset(0, -4),
                       ),
@@ -138,7 +122,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // ALERTA DE SUCESSO (Condicional id="mensagemSucesso")
                       if (_mostrarMensagemSucesso) ...[
                         Container(
                           padding: const EdgeInsets.symmetric(
@@ -146,17 +129,15 @@ class _LoginPageState extends State<LoginPage> {
                             vertical: 16,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xffd1e7dd), // bg-green-100
-                            border: Border.all(
-                              color: const Color(0xffbadbcc),
-                            ), // border-green-400
+                            color: const Color(0xffd1e7dd),
+                            border: Border.all(color: const Color(0xffbadbcc)),
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: const Text(
                             'Conta criada com sucesso!',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xff0f5132), // text-green-700
+                              color: Color(0xff0f5132),
                               fontWeight: FontWeight.bold,
                               fontSize: 15,
                             ),
@@ -165,7 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 24),
                       ],
 
-                      // TÍTULO ENTRAR (h2)
                       const Text(
                         'Entrar',
                         textAlign: TextAlign.center,
@@ -177,7 +157,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 40),
 
-                      // FORMULÁRIO - CAMPO SENHA
                       const Text(
                         'Senha',
                         style: TextStyle(
@@ -213,7 +192,6 @@ class _LoginPageState extends State<LoginPage> {
                               width: 2,
                             ),
                           ),
-                          // ÍCONE DO OLHO (Equivalente ao SVG toggleSenha())
                           suffixIcon: IconButton(
                             icon: Icon(
                               _obscureSenha
@@ -231,7 +209,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 24),
 
-                      // FORMULÁRIO - CAMPO CPF
                       const Text(
                         'CPF',
                         style: TextStyle(
@@ -248,7 +225,6 @@ class _LoginPageState extends State<LoginPage> {
                           color: puloTextDark,
                           fontSize: 18,
                         ),
-                        // Máscara inteligente diretamente na digitação nativa do Flutter
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           LengthLimitingTextInputFormatter(11),
@@ -277,13 +253,10 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 12),
 
-                      // ESQUECEU A SENHA
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
-                          onPressed: () {
-                            // Espaço para a ação de recuperação de senha
-                          },
+                          onPressed: () {},
                           style: TextButton.styleFrom(
                             padding: EdgeInsets.zero,
                             minimumSize: Size.zero,
@@ -301,15 +274,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 32),
 
-                      // BOTÃO ENTRAR
                       ElevatedButton(
                         onPressed: () {
-                          // Navega para a tela principal e remove o login do histórico
-                          Navigator.pushReplacement(
+                          Navigator.pushReplacementNamed(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => const TelaPrincipal(),
-                            ),
+                            '/telaprincipal',
                           );
                         },
                         style: ElevatedButton.styleFrom(
@@ -331,7 +300,6 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 40),
 
-                      // FOOTER (Criar conta / cadastro)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -344,14 +312,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              // Navega para a tela de cadastro permitindo voltar
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  // ATENÇÃO: Substitua 'CadastroPage()' pelo nome exato da classe no seu arquivo cadastro.dart
-                                  builder: (context) => const CadastroPage(),
-                                ),
-                              );
+                              Navigator.pushNamed(context, '/cadastro');
                             },
                             child: const Text(
                               'Criar conta',
@@ -371,35 +332,6 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-// Classe Utilitária de Formatação de CPF (Equivalente à função mascaraCPF no JS)
-class CpfInputFormatter extends TextInputFormatter {
-  @override
-  TextEditingValue formatEditUpdate(
-    TextEditingValue oldValue,
-    TextEditingValue newValue,
-  ) {
-    final text = newValue.text;
-    if (text.isEmpty) return newValue;
-
-    final buffer = StringBuffer();
-    for (int i = 0; i < text.length; i++) {
-      buffer.write(text[i]);
-      final index = i + 1;
-      if (index == 3 || index == 6) {
-        buffer.write('.');
-      } else if (index == 9) {
-        buffer.write('-');
-      }
-    }
-
-    final formattedText = buffer.toString();
-    return TextEditingValue(
-      text: formattedText,
-      selection: TextSelection.collapsed(offset: formattedText.length),
     );
   }
 }
