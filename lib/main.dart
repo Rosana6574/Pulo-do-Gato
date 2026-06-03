@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// Importação de todas as páginas mapeadas na pasta pagesfront
 import 'pagesfront/login_page.dart';
 import 'pagesfront/cadastro.dart';
 import 'pagesfront/telaprincipal.dart';
@@ -25,7 +24,6 @@ class MyApp extends StatelessWidget {
       title: 'Pulo do Gato',
       debugShowCheckedModeBanner: false,
 
-      // Definição da identidade visual global baseada no azul primário
       theme: ThemeData(
         primaryColor: const Color(0xff1565C0),
         colorScheme: ColorScheme.fromSeed(
@@ -35,10 +33,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      // Rota inicial do aplicativo (Tela de Login)
       initialRoute: '/login',
 
-      // Mapeamento de rotas nomeadas para navegação
       routes: {
         '/login': (context) => const LoginPage(),
         '/cadastro': (context) => const CadastroPage(),
