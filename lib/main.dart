@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/cadastro': (context) => const CadastroPage(),
         '/telaprincipal': (context) => const TelaPrincipal(),
-        '/calcular': (context) => const CalcularPage(),
+        // CORREÇÃO: Alterado de CalcularPage() para CalcularConsumoPage()
+        '/calcular': (context) => const CalcularConsumoPage(),
         '/resultadocalcular': (context) => const ResultadoCalcularPage(),
         '/alternativas': (context) => const AlternativasPage(),
         '/historico': (context) => const HistoricoPage(),
@@ -50,4 +51,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
