@@ -104,9 +104,9 @@ class HistoricooPage extends StatelessWidget {
                     child: Row(
                       children: [
                         // Eixo Y
-                        Column(
+                        const Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
+                          children: [
                             Text(
                               '180',
                               style: TextStyle(
@@ -183,9 +183,9 @@ class HistoricooPage extends StatelessWidget {
                   const SizedBox(height: 16),
                   Row(
                     children: [
-                      Expanded(
+                      const Expanded(
                         child: Column(
-                          children: const [
+                          children: [
                             Text(
                               'Últimos 3 meses',
                               style: TextStyle(
@@ -214,9 +214,9 @@ class HistoricooPage extends StatelessWidget {
                         ),
                       ),
                       Container(width: 1, height: 50, color: Colors.grey[200]),
-                      Expanded(
+                      const Expanded(
                         child: Column(
-                          children: const [
+                          children: [
                             Text(
                               '3 meses anteriores',
                               style: TextStyle(
@@ -353,11 +353,11 @@ class HistoricooPage extends StatelessWidget {
 
             // Resumo Total
             _buildCard(
-              child: Column(
+              child: const Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         'Total do período:',
                         style: TextStyle(color: Colors.grey, fontSize: 14),
@@ -372,10 +372,10 @@ class HistoricooPage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         'Média mensal:',
                         style: TextStyle(color: Colors.grey, fontSize: 14),
