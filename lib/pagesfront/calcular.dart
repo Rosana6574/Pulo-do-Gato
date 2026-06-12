@@ -4,7 +4,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 class CalcularConsumoPage extends StatefulWidget {
-  // CORREÇÃO 1: Usando super parameter
   const CalcularConsumoPage({super.key});
 
   @override
@@ -22,57 +21,90 @@ class _CalcularConsumoPageState extends State<CalcularConsumoPage> {
   final Color infoBlue = const Color(0xFF42A5F5);
 
   Future<void> _calcularConsumo() async {
-    final String dataMedicao = _dataMedicaoController.text;
-    final double? ultimaConta = double.tryParse(_ultimaContaController.text);
-    final double? valorAtual = double.tryParse(_valorAtualController.text);
+    debugPrint("--- 1. BOTÃO CLICADO: INICIANDO CÁLCULO ---");
 
-    // Validação de campos vazios
-    if (dataMedicao.isEmpty || ultimaConta == null || valorAtual == null) {
-      _mostrarAlerta("Preencha todos os campos.");
-      return;
-    }
+    try {
+      final String dataMedicao = _dataMedicaoController.text;
 
-    // Validação lógica de negócio
-    if (valorAtual < ultimaConta) {
-      _mostrarAlerta("O valor atual não pode ser menor que o da última conta.");
-      return;
-    }
+      // Remove pontos de milhar e troca vírgula por ponto (Ex: 1.200,50 vira 1200.50)
+      final String strUltimaConta = _ultimaContaController.text
+          .replaceAll('.', '')
+          .replaceAll(',', '.');
+      final String strValorAtual = _valorAtualController.text
+          .replaceAll('.', '')
+          .replaceAll(',', '.');
 
-    // Cálculos
-    final double consumo = valorAtual - ultimaConta;
-    const double tarifa = 0.85;
-    final double valorConta = consumo * tarifa;
+      final double? ultimaConta = double.tryParse(strUltimaConta);
+      final double? valorAtual = double.tryParse(strValorAtual);
 
-    // Salvando no "localStorage" (SharedPreferences do Dart)
-    final prefs = await SharedPreferences.getInstance();
-
-    await prefs.setDouble('consumo', consumo);
-    await prefs.setString('valorConta', valorConta.toStringAsFixed(2));
-    await prefs.setString('dataMedicao', dataMedicao);
-
-    // Lógica do Histórico
-    List<String> historicoString =
-        prefs.getStringList('historicoConsumo') ?? [];
-    List<Map<String, dynamic>> historico = historicoString
-        .map((item) => jsonDecode(item) as Map<String, dynamic>)
-        .toList();
-
-    historico.add({'data': dataMedicao, 'consumo': consumo});
-
-    // Converte de volta para string para salvar
-    List<String> novoHistoricoString = historico
-        .map((item) => jsonEncode(item))
-        .toList();
-    await prefs.setStringList('historicoConsumo', novoHistoricoString);
-
-    // Navegação para a próxima tela
-    if (mounted) {
-      // Substitua pelo nome da sua rota ou componente de resultado
-      // Navigator.pushNamed(context, '/resultadoCalcular');
-      _mostrarAlerta(
-        "Cálculo realizado e salvo com sucesso!\nValor: R\$ ${valorConta.toStringAsFixed(2)}",
-        isError: false,
+      debugPrint(
+        "--- 2. DADOS LIDOS -> Data: $dataMedicao | Última: $ultimaConta | Atual: $valorAtual ---",
       );
+
+      // Validação 1
+      if (dataMedicao.isEmpty || ultimaConta == null || valorAtual == null) {
+        _mostrarAlerta("Preencha todos os campos com números válidos.");
+        debugPrint("!!! ERRO: Validação falhou (campos vazios ou nulos) !!!");
+        return;
+      }
+
+      // Validação 2
+      if (valorAtual < ultimaConta) {
+        _mostrarAlerta(
+          "O valor atual não pode ser menor que o da última conta.",
+        );
+        debugPrint("!!! ERRO: Valor atual é menor que o da última conta !!!");
+        return;
+      }
+
+      // Cálculos
+      final double consumo = valorAtual - ultimaConta;
+      const double tarifa = 0.85;
+      final double valorConta = consumo * tarifa;
+
+      debugPrint(
+        "--- 3. CÁLCULO FEITO -> Consumo: $consumo | Valor Conta: R\$ $valorConta ---",
+      );
+
+      // Salvando no SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setDouble('consumo', consumo);
+      await prefs.setString('valorConta', valorConta.toStringAsFixed(2));
+      await prefs.setString('dataMedicao', dataMedicao);
+
+      debugPrint("--- 4. DADOS SALVOS NO CACHE (SharedPreferences) ---");
+
+      // Histórico
+      try {
+        List<String> historicoString =
+            prefs.getStringList('historicoConsumo') ?? [];
+        List<Map<String, dynamic>> historico = [];
+
+        for (var item in historicoString) {
+          historico.add(jsonDecode(item) as Map<String, dynamic>);
+        }
+
+        historico.add({'data': dataMedicao, 'consumo': consumo});
+        List<String> novoHistoricoString = historico
+            .map((item) => jsonEncode(item))
+            .toList();
+
+        await prefs.setStringList('historicoConsumo', novoHistoricoString);
+        debugPrint("--- 5. HISTÓRICO ATUALIZADO ---");
+      } catch (e) {
+        debugPrint("!!! AVISO: Erro ao salvar histórico (ignorado): $e !!!");
+      }
+
+      // Navegação
+      if (mounted) {
+        debugPrint("--- 6. TENTANDO NAVEGAR PARA /resultadocalcular ---");
+        Navigator.pushNamed(context, '/resultadocalcular');
+      } else {
+        debugPrint("!!! ERRO: Tela não está mais 'mounted' !!!");
+      }
+    } catch (e) {
+      _mostrarAlerta("Erro interno: $e");
+      debugPrint("!!! ERRO FATAL CATCH: $e !!!");
     }
   }
 
@@ -90,7 +122,6 @@ class _CalcularConsumoPageState extends State<CalcularConsumoPage> {
     // Substitua pela navegação da sua tela de informações
     // Navigator.pushNamed(context, '/informacoes');
 
-    // CORREÇÃO 2: Substituído print por debugPrint
     debugPrint("Navegando para Informações...");
   }
 
@@ -246,7 +277,7 @@ class _CalcularConsumoPageState extends State<CalcularConsumoPage> {
   }
 }
 
-// Formatador personalizado para a máscara de data (DD/MM/YYYY) idêntica ao JS
+// Formatador personalizado para a máscara de data (DD/MM/YYYY)
 class _DateInputFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(
