@@ -14,15 +14,21 @@ class _ResultadoCalcularPageState extends State<ResultadoCalcularPage> {
 
   @override
   void initState() {
-    super.initState(); // Corrigido aqui
+    super.initState();
     _carregarDados();
   }
 
   // Recupera dados do dispositivo (Equivalente ao localStorage)
   Future<void> _carregarDados() async {
     final prefs = await SharedPreferences.getInstance();
+
+    // CORREÇÃO: Pegamos o consumo como 'Double' (pois foi salvo assim)
+    // e depois convertemos para texto (String) para exibir na tela.
+    final double consumoDouble = prefs.getDouble('consumo') ?? 0.0;
+
     setState(() {
-      _consumo = prefs.getString('consumo') ?? "0";
+      // toStringAsFixed(0) tira as casas decimais (ex: 120.0 vira 120)
+      _consumo = consumoDouble.toStringAsFixed(0);
       _valorConta = prefs.getString('valorConta') ?? "0,00";
     });
   }
